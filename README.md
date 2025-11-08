@@ -59,8 +59,8 @@ Redis (Data Caching)
 └── rajeevsharma4nagarro/poc-app-ui
 
 # GitHub public repositories (branch : advance-POC)
-├── https://github.com/rajeevsharma4nagarro/dockerPOC
-└── https://github.com/rajeevsharma4nagarro/dockerPOC.git
+├── https://github.com/rajeev15july/dockerPOC
+└── https://github.com/rajeev15jult/dockerPOC.git
 
 
 # Docker & Compose Setup
