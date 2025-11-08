@@ -1,0 +1,59 @@
+services:
+    app-ui:
+        image: rajeevsharma4nagarro/poc-app-ui:v1
+        container_name: app-ui
+        ports:
+            - "${FRONTEND_PORT}:80"
+        depends_on:
+            - api-service
+        networks:
+            - app-network
+            
+    api-service:
+        #image: rajeevsharma4nagarro/poc-api-service:v1
+        build:
+            context: ./usersAPI
+            #dockerfile: ./usersAPI/Dockerfile
+        container_name: api-service
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongodb
+            - cache-service
+        networks:
+            - app-network
+            
+    mongodb:
+        image: mongo:8.0
+        container_name: mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_UID}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PWD}
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+        networks:
+            - app-network
+            
+    cache-service:
+        image: redis:8
+        container_name: cache-service
+        command: redis-server --appendonly yes --save 60 1 --requirepass "${REDIS_PWD}"
+        ports:
+            - "1046:6379"
+        volumes:
+            - redis-data:/data
+        networks:
+            - app-network
+            
+volumes:
+    mongo-data:
+        name: mongo-data
+    redis-data:
+        name: redis-data
+        
+networks:
+    app-network:
+        name: app-network
+        driver: bridge
